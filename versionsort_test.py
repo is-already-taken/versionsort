@@ -26,7 +26,7 @@ class DefaultWidgetSizeTestCase(unittest.TestCase):
 		self.sorter = VersionSort()
 
 	def runTest(self):
-		sorted_lines = self.sorter.sort(self.unsorted_lines, '^.*/([^/]+)$', '-')
+		sorted_lines = self.sorter.sort(self.unsorted_lines, '^.*/([^/]+)$', '-', reverse=True)
 
 		self.assertEqual(len(sorted_lines), len(self.expect_sorted_lines), 'Count does not equal, actual value \'{0}\' expected value \'{1}\''.format(len(sorted_lines),  len(self.expect_sorted_lines)))
 
