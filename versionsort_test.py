@@ -10,6 +10,13 @@ class DefaultWidgetSizeTestCase(unittest.TestCase):
 		'1.3-9', '1.3-2', '1.1.1-5', '1.1-24', '1.1-2', '1.0-12', '0.9-563'
 	]
 
+	unsorted_versions_wo_build = [
+		'1.0', '1.1', '0.9', '1.1.1', '1.3', '1.3.1'
+	]
+
+	expect_sorted_versions_wo_build = [
+		'1.3.1', '1.3', '1.1.1', '1.1', '1.0', '0.9'
+	]
 
 	def generate_lines(self, string, version_list):
 		lines = []
@@ -52,6 +59,14 @@ class DefaultWidgetSizeTestCase(unittest.TestCase):
 
 		self.assertions(sorted_lines, sorted_lines_expect)
 
+
+	def testWithoutBuildNumber(self):
+		unsorted_lines = self.generate_lines('version;is;at;{0};field;four;separated;by;semicolon', self.unsorted_versions_wo_build)
+		sorted_lines_expect = self.generate_lines('version;is;at;{0};field;four;separated;by;semicolon', self.expect_sorted_versions_wo_build)
+
+	 	sorted_lines = self.sorter.sort(lines=unsorted_lines, build_number_sep=None, reverse=True)
+
+		self.assertions(sorted_lines, sorted_lines_expect)
 
 
 	def testReverse(self):

@@ -27,13 +27,18 @@ class VersionSort():
 
 			# TODO check version by RegExp before continuing
 
-			# get version and build number part (N.M.O, B)
-			version_parts = re.split(build_number_sep, version)
 
-			# TODO handle build number less version
+			if (type(build_number_sep) != types.NoneType):
+				# get version and build number part (N.M.O, B)
+				version_parts = re.split(build_number_sep, version)
 
-			version_nmo = version_parts[0]
-			version_build = version_parts[1]
+				version_nmo = version_parts[0]
+				version_build = version_parts[1]
+
+			else:
+				# no build number
+				version_nmo = version
+				version_build = None
 
 			# get version number parts (N, M, O)
 			version_nmo_parts = re.split('[^0-9]', version_nmo)
@@ -44,7 +49,11 @@ class VersionSort():
 				max_fields = length
 
 			# store original line and parts in set and add to array
-			tupel = (line, version_nmo_parts, int(version_build))
+			if (type(version_build) != types.NoneType):
+				tupel = (line, version_nmo_parts, int(version_build))
+			else:
+				tupel = (line, version_nmo_parts)
+
 			array.append(tupel)
 
 		return array, max_fields
@@ -56,7 +65,7 @@ class VersionSort():
 
 		for version in array:
 			version_parts = version[1]
-			build = version[2]
+			build = version[2] if (len(version) == 3) else 0
 			version_sum = 0
 			length = len(version_parts)
 
