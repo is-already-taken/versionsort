@@ -49,9 +49,9 @@ class VersionSort():
 
 		return array, max_fields
 
-	def sort(self, lines, version_field_matcher=None, build_number_sep=None, field_sep=None, field_num=None, reverse=False):
+	def sort(self, lines, version_field_matcher='(\d+(:?\.\d+)+(:?-\d+)?)', build_number_sep='-', field_sep=None, field_num=None, reverse=False):
 		out_lines = []
-		(array, max_fields) = self.extract_versions(lines, version_field_matcher, build_number_sep, field_sep, field_num)
+		(array, max_fields) = self.extract_versions(lines, version_field_matcher=version_field_matcher, build_number_sep=build_number_sep, field_num=field_num)
 		
 
 		for version in array:
@@ -75,8 +75,8 @@ class VersionSort():
 class VersionSortCli(VersionSort):
 
 	# defaults	
-	matcher = '(\d+(:?\.\d+)+(:?-\d+)?)'
-	build_separator = '-'
+	matcher = None
+	build_separator = None
 	field_sep = None
 	field_num = None
 	reverse = False
